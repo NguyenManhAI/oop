@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="PieceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2023-03-26T09:21:03" hostname="LAPTOP-GFDB5TP5" time="0.028">
+  <properties/>
+  <testcase name="testcontructor()" classname="PieceTest" time="0.014"/>
+  <testcase name="testequals()" classname="PieceTest" time="0.001"/>
+  <testcase name="testheight()" classname="PieceTest" time="0.001"/>
+  <testcase name="testfastRotation()" classname="PieceTest" time="0.001"/>
+  <testcase name="testComputeNextRotation()" classname="PieceTest" time="0.001"/>
+  <testcase name="testskirt()" classname="PieceTest" time="0.001"/>
+  <testcase name="testwidth()" classname="PieceTest" time="0.0"/>
+  <testcase name="testSampleSize()" classname="PieceTest" time="0.001"/>
+  <testcase name="testSampleSkirt()" classname="PieceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

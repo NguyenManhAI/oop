@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestExpression" tests="10" skipped="0" failures="0" errors="0" timestamp="2023-03-26T15:16:36" hostname="LAPTOP-GFDB5TP5" time="0.029">
+  <properties/>
+  <testcase name="testAdditionEvaluate()" classname="TestExpression" time="0.013"/>
+  <testcase name="testSquareEvaluate()" classname="TestExpression" time="0.001"/>
+  <testcase name="testNumeralEvaluate()" classname="TestExpression" time="0.0"/>
+  <testcase name="testAdditionWithParenthesesToString()" classname="TestExpression" time="0.007"/>
+  <testcase name="test1()" classname="TestExpression" time="0.0"/>
+  <testcase name="test2()" classname="TestExpression" time="0.001"/>
+  <testcase name="test3()" classname="TestExpression" time="0.0"/>
+  <testcase name="testAdditionToString()" classname="TestExpression" time="0.0"/>
+  <testcase name="testSquareToString()" classname="TestExpression" time="0.001"/>
+  <testcase name="testNumeralToString()" classname="TestExpression" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

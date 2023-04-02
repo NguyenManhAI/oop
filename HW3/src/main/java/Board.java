@@ -1,5 +1,7 @@
 // Board.java
 
+import java.util.Arrays;
+
 /**
  * CS108 Tetris Board.
  * Represents a Tetris board -- essentially a 2-d grid
@@ -10,9 +12,19 @@
  */
 public class Board {
     // Some ivars are stubbed out for you:
-    private int width;
-    private int height;
+    private int maxHeight;
+    private int[] widths;
+    private int[] heights;
+    private int width;//final
+    private int height;//final
     private boolean[][] grid;
+
+    //pre
+    private int pre_maxHeight;
+    private int[] pre_widths;
+    private int[] pre_heights;
+    private boolean[][] pre_grid;
+
     private boolean DEBUG = true;
     boolean committed;
 
@@ -28,9 +40,29 @@ public class Board {
         this.height = height;
         grid = new boolean[width][height];
         committed = true;
+        maxHeight = 0;
+        widths = new int[height];
+        heights = new int[width];
+
+        pre_widths = new int[height];
+        pre_heights = new int[width];
+        pre_grid = new boolean[width][height];
         // YOUR CODE HERE
     }
 
+    public void reduce_true(int y)
+    {
+        for(int i=0; i<width; i++)
+        {
+            for(int j=0;j<height;j++)
+            {
+                grid[i][j] = true;
+                widths[j]++;
+                heights[i]++;
+            }
+        }
+        maxHeight = height;
+    }
 
     /**
      * Returns the width of the board in blocks.
@@ -53,9 +85,17 @@ public class Board {
      * For an empty board this is 0.
      */
     public int getMaxHeight() {
-        return 0; // YOUR CODE HERE
+        return maxHeight; // YOUR CODE HERE
     }
 
+    public int[] getWidths()
+    {
+        return widths;
+    }
+    public int[] getHeights()
+    {
+        return heights;
+    }
 
     /**
      * Checks the board for internal consistency -- used
@@ -63,6 +103,37 @@ public class Board {
      */
     public void sanityCheck() {
         if (DEBUG) {
+            int[] cpy_heights = new int[width];
+            int[] cpy_widths = new int[height];
+            int cpy_maxHeight = 0;
+            for(int i = 0; i < width; i++)
+            {
+                for(int j = 0; j < height; j++)
+                {
+                    if(grid[i][j])
+                    {
+                        cpy_widths[j] ++;
+                        if(cpy_heights[i] < j+1)
+                        {
+                            cpy_heights[i] = j+1;
+                        }
+                    }
+                }
+            }
+
+            for(int i : cpy_heights)
+            {
+                if(cpy_maxHeight < i)
+                {
+                    cpy_maxHeight = i;
+                }
+            }
+
+            if(!(Arrays.equals(cpy_widths,widths) && Arrays.equals(cpy_heights,heights ) && cpy_maxHeight == maxHeight)) {
+                DEBUG = false;
+                throw new RuntimeException("description");
+            }
+
             // YOUR CODE HERE
         }
     }
@@ -77,7 +148,19 @@ public class Board {
      * to compute this fast -- O(skirt length).
      */
     public int dropHeight(Piece piece, int x) {
-        return 0; // YOUR CODE HERE
+        // xac dinh diem tiep xuc
+        int max = 0;
+        int maxi = 0;
+        for(int i = 0; i < piece.getSkirt().length; i++)
+        {
+            if(max < heights[x+i] - piece.getSkirt()[i])
+            {
+                max = heights[x+i] - piece.getSkirt()[i];
+                maxi = i;
+            }
+        }
+
+        return max; // YOUR CODE HERE
     }
 
 
@@ -87,7 +170,8 @@ public class Board {
      * The height is 0 if the column contains no blocks.
      */
     public int getColumnHeight(int x) {
-        return 0; // YOUR CODE HERE
+
+        return heights[x]; // YOUR CODE HERE
     }
 
 
@@ -96,7 +180,8 @@ public class Board {
      * the given row.
      */
     public int getRowWidth(int y) {
-        return 0; // YOUR CODE HERE
+
+        return widths[y]; // YOUR CODE HERE
     }
 
 
@@ -106,10 +191,14 @@ public class Board {
      * always return true.
      */
     public boolean getGrid(int x, int y) {
+
         return grid[x][y]; // YOUR CODE HERE
     }
 
-
+    public boolean[][] Get_grid()
+    {
+        return grid;
+    }
     public static final int PLACE_OK = 0;
     public static final int PLACE_ROW_FILLED = 1;
     public static final int PLACE_OUT_BOUNDS = 2;
@@ -133,8 +222,65 @@ public class Board {
         // flag !committed problem
         if (!committed) throw new RuntimeException("place commit problem");
 
-        int result = PLACE_OK;
+        //truoc khi dat copy sang pre
+        pre_maxHeight = maxHeight;
+        System.arraycopy(widths,0,pre_widths,0,height);
+        System.arraycopy(heights,0,pre_heights,0,width);
+        for(int i=0; i < width; i++)
+        {
+            System.arraycopy(grid[i],0,pre_grid[i],0,height);
+        }
 
+        int result = PLACE_OK;
+        int X=0;
+        int Y=0;
+
+
+        //mot phan manh nam ngoai bang, de len cac khoi trong mang da lap tu truoc
+        for(TPoint i : piece.getBody())
+        {
+            X = i.x + x;
+            Y = i.y + y;
+            //ngoai bang
+            if((X >= width || X<0) || (Y >= height || Y<0))
+            {
+                result = PLACE_OUT_BOUNDS;
+            }
+            //de
+            if(grid[X][Y])
+            {
+                result = PLACE_BAD;
+            }
+        }
+
+        // dung
+        if(result == PLACE_OK)
+        {
+            for(TPoint i : piece.getBody())
+            {
+                X = i.x + x;
+                Y = i.y + y;
+
+                widths[Y] ++;
+
+                if(heights[X] < Y+1)
+                {
+                    heights[X] = Y+1;
+                }
+
+                grid[X][Y] = true;
+                if(maxHeight < heights[X])
+                {
+                    maxHeight = heights[X];
+                }
+                if(widths[Y] == height)
+                {
+                    result = PLACE_ROW_FILLED;
+                }
+            }
+            sanityCheck();
+        }
+        committed = false;
         // YOUR CODE HERE
 
         return result;
@@ -147,7 +293,64 @@ public class Board {
      */
     public int clearRows() {
         int rowsCleared = 0;
+        int y = -1;
+        // cap nhat widths grid[][]   heights maxHeight
+        // cu moi hang lap day heights maxHeight giam di mot
 
+        for(int i=0 ; i < height ;i++)
+        {
+            if(i > y && y!=-1)
+            {
+                widths[i-rowsCleared] = widths[i];
+                for(int j = 0; j < width ; j++)
+                {
+                    grid[j][i-rowsCleared] = grid[j][i];
+                }
+            }
+            if(widths[i] == width)
+            {
+                rowsCleared ++;
+                y = i;
+            }
+        }
+        for(int i=height-1 ; i > height -1 -rowsCleared; i--)
+        {
+            widths[i] = 0;
+            for(int j = 0; j < width ; j++)
+            {
+                grid[j][i] = false;
+            }
+        }
+
+        heights = new int[width];
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                if(grid[i][j])
+                {
+                    if(heights[i] < j+1)
+                    {
+                        heights[i] = j+1;
+                    }
+                }
+            }
+        }
+        maxHeight = -1;
+        for(int i : heights)
+        {
+            if(maxHeight < i)
+            {
+                maxHeight = i;
+            }
+        }
+
+//        maxHeight -= rowsCleared;
+//        for(int i : heights)
+//        {
+//            i -= rowsCleared;
+//        }
+        committed = false;
         // YOUR CODE HERE
         sanityCheck();
         return rowsCleared;
@@ -162,6 +365,18 @@ public class Board {
      * See the overview docs.
      */
     public void undo() {
+        if(!committed)
+        {
+            maxHeight = pre_maxHeight;
+            System.arraycopy(pre_widths,0,widths,0,height);
+            System.arraycopy(pre_heights,0,heights,0,width);
+            for(int i=0; i < width; i++)
+            {
+                System.arraycopy(pre_grid[i],0,grid[i],0,height);
+            }
+
+            sanityCheck();
+        }
         // YOUR CODE HERE
     }
 

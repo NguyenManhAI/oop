@@ -246,6 +246,7 @@ public class Board {
             {
                 result = PLACE_OUT_BOUNDS;
             }
+            else
             //de
             if(grid[X][Y])
             {

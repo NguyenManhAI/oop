@@ -375,7 +375,7 @@ public class Board {
             {
                 System.arraycopy(pre_grid[i],0,grid[i],0,height);
             }
-
+            committed = true;
             sanityCheck();
         }
         // YOUR CODE HERE

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_BubbleSort" tests="4" skipped="0" failures="0" errors="0" timestamp="2023-04-07T08:37:10" hostname="LAPTOP-GFDB5TP5" time="0.035">
+  <properties/>
+  <testcase name="test_NumList()" classname="test_BubbleSort" time="0.026"/>
+  <testcase name="test_all()" classname="test_BubbleSort" time="0.001"/>
+  <testcase name="test_QuickSort()" classname="test_BubbleSort" time="0.001"/>
+  <testcase name="test()" classname="test_BubbleSort" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

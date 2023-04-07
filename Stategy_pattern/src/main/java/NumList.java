@@ -21,7 +21,14 @@ public class NumList {
         sizeOfList++;
         return sizeOfList;
     }
-
+    public double[] getNumList2() {
+        double[] a = new double[sizeOfList];
+        for(int i=0;i<sizeOfList;i++)
+        {
+            a[i] = listOfNum.get(i);
+        }
+        return a;
+    }
     public List<Double> getNumList() {
         return listOfNum;
     }

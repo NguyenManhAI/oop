@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Test_Solve" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-18T15:20:17" hostname="LAPTOP-GFDB5TP5" time="0.014">
+  <properties/>
+  <testcase name="test_undo_EmptyNum()" classname="Test_Solve" time="0.014"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
